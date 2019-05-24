@@ -45,7 +45,7 @@ class MainHeader extends Component{
     render(){
         return(
 <div>
-<div class="marquee">
+<div className="marquee">
   <div>
     <span>Need Help: <Icon type="phone" theme="filled" rotate={120}  /> <a href="tel:+7038375655">+91 7038375655</a></span>
     <span>Need Help: <Icon type="phone" theme="filled" rotate={120}  /> <a href="tel:+6494461709">+91 7038375655</a></span>
@@ -73,9 +73,9 @@ class MainHeader extends Component{
                     <Menu.Item key="6"><Link to='/register' component={Register}>  Register </Link></Menu.Item>
                     
                     <Dropdown overlay={menu} trigger={['click']}>
-                        <a className="ant-dropdown-link" href="#">
+                        <Link className="ant-dropdown-link" to="#">
                             <Icon type="more" />
-                        </a>
+                        </Link>
                     </Dropdown> 
                 </Menu>
             </Col>      

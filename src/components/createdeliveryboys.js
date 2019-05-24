@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
-import { Form, Input, Button, Select, Checkbox,  Row, Col } from 'antd';
+import { Form, Input, Button, Select, Checkbox,  Row, Col,message } from 'antd';
+import axios from 'axios';
 
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -12,10 +13,37 @@ const formTailLayout = {
 const { Option } = Select;
 
 class CreateDeliveryBoysForm extends React.Component {
+  constructor() {
+    super();
+    this.state={
+      routesData:[],
+      routes:[],
+      boyCreate:false,
+      boyData:[]
+    }
+  }
+  componentDidMount() {
+    axios.get('http://localhost:3005/Route').then((response)=> {
+      this.setState({routesData:response.data})
+      this.state.routesData.map((data,index) => {
+        this.state.routes.push(<Option value={data.routenumber} key={index}>{data.routenumber}</Option>)
+      })
+    })
+  }
+
+  boyCreated=()=> {
+    return <span>Delivery boy <b>{this.state.routeData.routenumber}</b> is created for {this.state.routeData.areas.map((item) =>{
+      return <b>{item} </b>;
+    })}areas </span>
+  }
   check = () => {
-    this.props.form.validateFields(err => {
+    this.props.form.validateFields((err,values) => {
       if (!err) {
-        console.info('success');
+         axios.post('http://localhost:3005/Boy',values).then((response) => {
+          message.success("All information of Route created succesfully")
+          this.setState({boyCreate:true,boyData:response.data})
+          this.props.form.resetFields();
+         })
       }
     });
   };
@@ -44,12 +72,11 @@ class CreateDeliveryBoysForm extends React.Component {
                     })(<Input   placeholder="Please input your phone number!" />)}
                 </Form.Item>
                 <Form.Item {...formItemLayout} label="Select Route Number" hasFeedback>
-                {getFieldDecorator('Select Route Number', {
+                {getFieldDecorator('route', {
                     rules: [{ required: true, message: 'Select Route Number' }],
                 })(
                     <Select placeholder="Please Select Route Number">
-                    <Option value="1">Root 1</Option>
-                    <Option value="2">Root 2</Option>
+                    {this.state.routes}
                     </Select>,
                 )}
                 </Form.Item>
@@ -58,6 +85,11 @@ class CreateDeliveryBoysForm extends React.Component {
                     Create Delivery Boy 
                     </Button>
                 </Form.Item>
+            </Col>
+            <Col span={12}>
+              {
+                this.state.routeCreate ? this.boyCreated() :null
+              }
             </Col>
         </Row>    
       </div>

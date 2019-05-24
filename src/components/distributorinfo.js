@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
-import { Form, Input, Button, Select, Checkbox,  Row, Col } from 'antd';
-
+import { Form, Input, Button, Select, Checkbox,  Row, Col, InputNumber,message } from 'antd';
+import axios from 'axios';
 const formItemLayout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 12 },
@@ -11,21 +11,62 @@ const formTailLayout = {
 };
 const { Option } = Select;
 
-const children = [];
-for (let i = 10; i < 36; i++) {
-  children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-}
+// const children = [];
+// for (let i = 10; i < 36; i++) {
+//   children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
+// }
 
 function handleChange(value) {
   console.log(`selected ${value}`);
 }
 
 class DistributorInfoForm extends React.Component {
-
+    constructor() {
+        super();
+        this.state={
+            locationData:[],
+            states:[],
+            citys:[],
+            areas:[],
+            pincodes:[],
+        }
+        
+    }
+componentDidMount() {
+    axios.get("http://localhost:3005/location").then((response) => {
+      this.setState({locationData:response.data})
+      for(let data in this.state.locationData[0]) {
+          if(data=='state') {
+              this.state.locationData[0][data].map((item,index) =>{
+                  this.state.states.push(<Option value={item} key={index}>{item}</Option>) 
+                })
+            }
+            else if(data==='city') {
+                this.state.locationData[0][data].map((item,index) =>{
+                    this.state.citys.push(<Option value={item} key={index}>{item}</Option>) 
+                  })
+            }
+            else if(data==='area') {
+                this.state.locationData[0][data].map((item,index) =>{
+                    this.state.areas.push(<Option value={item} key={index}>{item}</Option>) 
+                  })
+            }
+            else if(data==='pincode') {
+                this.state.locationData[0][data].map((item,index) =>{
+                    this.state.pincodes.push(<Option value={item} key={index}>{item}</Option>) 
+                  })
+            }
+        }
+    })
+    }
+    
   check = () => {
-    this.props.form.validateFields(err => {
+    this.props.form.validateFields((err,values) => {
       if (!err) {
-        console.info('success');
+              axios.post("http://localhost:3005/Distributer",values).then((response) => {
+                message.success("All information of distributer submited succesfully")
+                this.props.form.resetFields();
+              })
       }
     });
   };
@@ -74,49 +115,47 @@ class DistributorInfoForm extends React.Component {
                     <Form.Item {...formItemLayout} label="Phone Number">
                     {getFieldDecorator('phone', {
                         rules: [{ required: true, message: 'Please input your phone number!' }],
-                    })(<Input   placeholder="Please input your phone number!" />)}
+                    })(<InputNumber   placeholder="Please input your phone number!" style={{ width: '100%' }}/>)}
                     </Form.Item>
 
                     <Form.Item {...formItemLayout} label="Select State" hasFeedback>
-                    {getFieldDecorator('select state', {
+                    {getFieldDecorator('state', {
                         rules: [{ required: true, message: 'Please select state!' }],
                     })(
                         <Select placeholder="Please select state">
-                        <Option value="maharastra">Maharastra</Option>
-                        <Option value="gujrat">Gujrat</Option>
+                        {/* <Option value="maharastra">Maharastra</Option>
+                        <Option value="gujrat">Gujrat</Option> */}
+                        {this.state.states}
                         </Select>,
                     )}
                     </Form.Item>
 
                     <Form.Item {...formItemLayout} label="Select City" hasFeedback>
-                    {getFieldDecorator('select city', {
+                    {getFieldDecorator('city', {
                         rules: [{ required: true, message: 'Please select city!' }],
                     })(
                         <Select placeholder="Please select city">
-                        <Option value="pune">Pune</Option>
-                        <Option value="dhule">Dhule</Option>
+                        {this.state.citys}
                         </Select>,
                     )}
                     </Form.Item>
 
                     <Form.Item {...formItemLayout} label="Select Area" hasFeedback>
-                    {getFieldDecorator('select area', {
+                    {getFieldDecorator('area', {
                         rules: [{ required: true, message: 'Please select area!' }],
                     })(
                         <Select placeholder="Please select area">
-                        <Option value="dattawadi">Dattawadi</Option>
-                        <Option value="navi peth">Navi Peth</Option>
+                        {this.state.areas}
                         </Select>,
                     )}
                     </Form.Item>
 
                     <Form.Item {...formItemLayout} label="Select Pincode" hasFeedback>
-                    {getFieldDecorator('select area', {
+                    {getFieldDecorator('pincode', {
                         rules: [{ required: true, message: 'Please select area!' }],
                     })(
                         <Select placeholder="Please select area">
-                        <Option value="411030">411030</Option>
-                        <Option value="411031">411031</Option>
+                        {this.state.pincodes}
                         </Select>,
                     )}
                     </Form.Item>    
@@ -132,7 +171,7 @@ class DistributorInfoForm extends React.Component {
             <Col span={12}>
 
                     <Form.Item {...formItemLayout} label=" Service Areas" hasFeedback>
-                            {getFieldDecorator('select distributer service areas', {
+                            {getFieldDecorator('distributerServiceAreas', {
                                 rules: [{ required: true, message: 'Please select Distributor areas!' }],
                             })(
                         <Select
@@ -142,13 +181,13 @@ class DistributorInfoForm extends React.Component {
                             // defaultValue={['a10', 'c12']}
                             onChange={handleChange}
                         >
-                            {children}
+                            {this.state.areas}
                         </Select>,
                                 )}
                     </Form.Item>
 
                     <Form.Item {...formItemLayout} label=" Service Pincodes" hasFeedback>
-                            {getFieldDecorator('select distributer service Pincodes', {
+                            {getFieldDecorator('distributerServicePincodes', {
                                 rules: [{ required: true, message: 'Please select Distributor Pincodes!' }],
                             })(
                         <Select
@@ -158,7 +197,7 @@ class DistributorInfoForm extends React.Component {
                             // defaultValue={['a10', 'c12']}
                             onChange={handleChange}
                         >
-                            {children}
+                            {this.state.pincodes}
                         </Select>,
                             )}
                     </Form.Item>        

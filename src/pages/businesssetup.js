@@ -43,7 +43,6 @@ class BusinessSetUP extends Component{
         const current = this.state.current - 1;
         this.setState({ current });
       }
-    
 
     render(){
         const { current } = this.state;

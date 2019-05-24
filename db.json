@@ -1,0 +1,70 @@
+{
+  "Distributer": [
+    {
+      "companyname": "ivision",
+      "firstname": "trushant",
+      "lastname": "Bhangare",
+      "phone": 9923520557,
+      "state": "Maharashra",
+      "city": "Pune",
+      "area": "Karve Nagar",
+      "pincode": 411411,
+      "distributerServiceAreas": [
+        "Karve Nagar",
+        "Shivajinagar"
+      ],
+      "distributerServicePincodes": [
+        411607,
+        411411
+      ],
+      "id": 1
+    }
+  ],
+  "Route": [
+    {
+      "routenumber": "root1",
+      "areas": [
+        "Karve Nagar"
+      ],
+      "pincodes": [
+        411607
+      ],
+      "id": 1
+    }
+  ],
+  "Boy":[
+
+  ],
+  "location": [
+    {
+      "state": [
+        "Maharashra",
+        "Gujrat",
+        "Keral",
+        "Karnatak"
+      ],
+      "city": [
+        "Pune",
+        "Mumbai",
+        "Nashik",
+        "Nagar"
+      ],
+      "area": [
+        "Karve Nagar",
+        "Shivajinagar",
+        "Dattawadi",
+        "janta Wasahat"
+      ],
+      "pincode": [
+        422605,
+        411607,
+        411411,
+        411989,
+        411454
+      ]
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
