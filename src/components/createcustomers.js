@@ -8,8 +8,8 @@ class CreateCustomersForms extends React.Component {
         this.state={
             dataSource:[],
             sheets:[],
-            emptySheets:[],
-            emptyDataSource:[]
+            blankSheets:[],
+            blankDataSource:[]
         }
     }
 
@@ -25,8 +25,8 @@ class CreateCustomersForms extends React.Component {
         axios.get('http://localhost:3005/DemoSheet').then((response) => {
             this.setState({dataSource:response.data})
           })
-          axios.get('http://localhost:3005/Empty').then((response) => {
-            this.setState({emptyDataSource:response.data})
+          axios.get('http://localhost:3005/BlankSheet').then((response) => {
+            this.setState({blankDataSource:response.data})
           })
       }
       
@@ -36,7 +36,7 @@ class CreateCustomersForms extends React.Component {
             this.state.dataSource.map((item,index)=>{
                 for(let entry in item) {
                     this.state.sheets.push(
-                    <Workbook.Sheet data={item[entry]} name={`root${index}`} key = {index}>
+                    <Workbook.Sheet data={item[entry]} name={entry} key = {index}>
                        <Workbook.Column label="id" value={row => row.id}/>
                        <Workbook.Column label="name" value={row => row.name}/>
                        <Workbook.Column label="buff" value={row => row.buff}/>
@@ -48,16 +48,16 @@ class CreateCustomersForms extends React.Component {
                 
             })
          }
-             if(this.state.dataSource) {
-                this.state.dataSource.map((item,index)=>{
+
+             if(this.state.blankDataSource) {
+                this.state.blankDataSource.map((item,index)=>{
                     for(let entry in item) {
-                        this.state.emptySheets.push(
-                        <Workbook.Sheet data={item[entry]} name={`root${index}`} key = {index}>
-                           <Workbook.Column label="id" value={row => row.id}/>
-                           <Workbook.Column label="name" value={row => row.name}/>
-                           <Workbook.Column label="buff" value={row => row.buff}/>
-                           <Workbook.Column label="cow" value={row => row.cow}/>
-                           <Workbook.Column label="date" value={row => row.date}/>
+                        this.state.blankSheets.push(
+                        <Workbook.Sheet data={item[entry]} name={entry} key = {index}>
+                           <Workbook.Column label="name" />
+                           <Workbook.Column label="buff" />
+                           <Workbook.Column label="cow" />
+                           <Workbook.Column label="date" />
                        </Workbook.Sheet>
                       )
                     }
@@ -76,7 +76,7 @@ class CreateCustomersForms extends React.Component {
                             <Button type="primary" >
                                 Download Blank Sheet
                             </Button>}>
-                               {this.state.emptySheets}
+                               {this.state.blankSheets}
                              </Workbook>  
                                                
                         </Col>

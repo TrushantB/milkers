@@ -144,24 +144,10 @@
   ],
   "BlankSheet": [
     {
-      "root1":[
-        {
-          "name": "",
-          "buff": "",
-          "cow": "",
-          "date": ""
-        }
-      ]
+      "root1":[]
     },
     {
-      "root2":[
-        {
-          "name": "",
-          "buff": "",
-          "cow": "",
-          "date": ""
-        }
-      ]
+      "root2":[]
     }
   ]
       
