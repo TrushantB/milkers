@@ -30,10 +30,43 @@
         411607
       ],
       "id": 1
+    },
+    {
+      "routenumber": "root2",
+      "areas": [
+        "Shivajinagar"
+      ],
+      "pincodes": [
+        411411
+      ],
+      "id": 2
     }
   ],
-  "Boy":[
-
+  "Boy": [
+    {
+      "boyname": "mukund",
+      "phone": "1236547890",
+      "route": "root2",
+      "id": 1
+    },
+    {
+      "boyname": "ewrwe",
+      "phone": "5664",
+      "route": "root2",
+      "id": 2
+    },
+    {
+      "boyname": "jisdfdsfh",
+      "phone": "7894561232",
+      "route": "root2",
+      "id": 3
+    },
+    {
+      "boyname": "gdfg",
+      "phone": "5454",
+      "route": "root2",
+      "id": 4
+    }
   ],
   "location": [
     {
@@ -64,7 +97,72 @@
       ]
     }
   ],
-  "profile": {
-    "name": "typicode"
-  }
+  "DemoSheet": [
+    {
+      "root1":[
+        {
+          "id": 1,
+          "name": "Jathar",
+          "buff": "1",
+          "cow": "2",
+          "date": "4/5/2019"
+        },
+        {
+          "id": 2,
+          "name": "Kulkarni",
+          "buff": "0.5",
+          "cow": "3",
+          "date": "5/5/2019"
+        },
+        {
+          "id": 3,
+          "name": "kakde",
+          "buff": "5",
+          "cow": "6",
+          "date": "6/5/2019"
+        }
+      ]
+    },
+    {
+      "root2":[
+        {
+          "id": 4,
+          "name": "yogita",
+          "buff": "1",
+          "cow": "2",
+          "date": "7/5/2019"
+        },
+        {
+          "id": 5,
+          "name": "Vanita",
+          "buff": "0.5",
+          "cow": "3",
+          "date": "8/5/2019"
+        }
+      ]
+    }
+  ],
+  "BlankSheet": [
+    {
+      "root1":[
+        {
+          "name": "",
+          "buff": "",
+          "cow": "",
+          "date": ""
+        }
+      ]
+    },
+    {
+      "root2":[
+        {
+          "name": "",
+          "buff": "",
+          "cow": "",
+          "date": ""
+        }
+      ]
+    }
+  ]
+      
 }

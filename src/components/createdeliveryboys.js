@@ -32,9 +32,7 @@ class CreateDeliveryBoysForm extends React.Component {
   }
 
   boyCreated=()=> {
-    return <span>Delivery boy <b>{this.state.routeData.routenumber}</b> is created for {this.state.routeData.areas.map((item) =>{
-      return <b>{item} </b>;
-    })}areas </span>
+    return <span>Delivery boy <b>{this.state.boyData.boyname}</b> is created for <b>{this.state.boyData.route}</b> areas </span>
   }
   check = () => {
     this.props.form.validateFields((err,values) => {
@@ -57,7 +55,7 @@ class CreateDeliveryBoysForm extends React.Component {
         <Row>
             <Col span={12}>
                 <Form.Item {...formItemLayout} label="Enter Delivery Boy Name">
-                    {getFieldDecorator('Routenumber', {
+                    {getFieldDecorator('boyname', {
                         rules: [
                         {
                             required: true,
@@ -88,7 +86,7 @@ class CreateDeliveryBoysForm extends React.Component {
             </Col>
             <Col span={12}>
               {
-                this.state.routeCreate ? this.boyCreated() :null
+                this.state.boyCreate ? this.boyCreated() :null
               }
             </Col>
         </Row>    

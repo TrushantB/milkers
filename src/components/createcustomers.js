@@ -1,7 +1,17 @@
 import React,{Component} from 'react'
 import { Form, Input, Button, Upload, Icon,   Select, Checkbox,  Row, Col } from 'antd';
-
+import axios from 'axios';
+import Workbook from 'react-excel-workbook';
 class CreateCustomersForms extends React.Component {
+    constructor() {
+        super();
+        this.state={
+            dataSource:[],
+            sheets:[],
+            emptySheets:[],
+            emptyDataSource:[]
+        }
+    }
 
     normFile = e => {
         console.log('Upload event:', e);
@@ -11,9 +21,49 @@ class CreateCustomersForms extends React.Component {
         return e && e.fileList;
       };
     
-
+      componentDidMount() {
+        axios.get('http://localhost:3005/DemoSheet').then((response) => {
+            this.setState({dataSource:response.data})
+          })
+          axios.get('http://localhost:3005/Empty').then((response) => {
+            this.setState({emptyDataSource:response.data})
+          })
+      }
+      
     render(){
         const { getFieldDecorator } = this.props.form;
+        if(this.state.dataSource) {
+            this.state.dataSource.map((item,index)=>{
+                for(let entry in item) {
+                    this.state.sheets.push(
+                    <Workbook.Sheet data={item[entry]} name={`root${index}`} key = {index}>
+                       <Workbook.Column label="id" value={row => row.id}/>
+                       <Workbook.Column label="name" value={row => row.name}/>
+                       <Workbook.Column label="buff" value={row => row.buff}/>
+                       <Workbook.Column label="cow" value={row => row.cow}/>
+                       <Workbook.Column label="date" value={row => row.date}/>
+                   </Workbook.Sheet>
+                  )
+                }
+                
+            })
+         }
+             if(this.state.dataSource) {
+                this.state.dataSource.map((item,index)=>{
+                    for(let entry in item) {
+                        this.state.emptySheets.push(
+                        <Workbook.Sheet data={item[entry]} name={`root${index}`} key = {index}>
+                           <Workbook.Column label="id" value={row => row.id}/>
+                           <Workbook.Column label="name" value={row => row.name}/>
+                           <Workbook.Column label="buff" value={row => row.buff}/>
+                           <Workbook.Column label="cow" value={row => row.cow}/>
+                           <Workbook.Column label="date" value={row => row.date}/>
+                       </Workbook.Sheet>
+                      )
+                    }
+                    
+                })
+             }
 
         return(
             <div className="formbox">
@@ -21,23 +71,31 @@ class CreateCustomersForms extends React.Component {
                 <div>
                     <Row>
                         <Col span={12} >
-                            <h3> Download Blank Sheet for Customer List </h3>    
+                            <h3> Download Blank Sheet for Customer List </h3>  
+                            <Workbook filename="example.csv" element={
                             <Button type="primary" >
                                 Download Blank Sheet
-                            </Button>                        
+                            </Button>}>
+                               {this.state.emptySheets}
+                             </Workbook>  
+                                               
                         </Col>
                         <Col span={12}> 
-                            <h3> Demo Sheet for understand how to write data in sheet  </h3>    
+                            <h3> Demo Sheet for understand how to write data in sheet  </h3>  
+                            <Workbook filename="example.csv" element={
                             <Button type="primary" >
                                 Download Demo Sheet
-                            </Button>
+                            </Button>}>
+                               {this.state.sheets}
+                             </Workbook>    
+                            
                         </Col>
                     </Row>
 <br />
                     <Row>
                         <Col span={24} >
                             <h3> Upload Customer Data Sheet</h3>    
-                            <Form.Item label="Upload" extra="longgggggggggggggggggggggggggggggggggg">
+                            <Form.Item label="Upload" >
                                 {getFieldDecorator('upload', {
                                     valuePropName: 'fileList',
                                     getValueFromEvent: this.normFile,
@@ -61,60 +119,3 @@ class CreateCustomersForms extends React.Component {
 
 const CreateCustomers = Form.create({ name: 'dynamic_rule' })(CreateCustomersForms);
 export default CreateCustomers;
-
-
-
-/*
-import React,{Component} from 'react'
-import { Form, Input, Button, Upload, Icon,   Select, Checkbox,  Row, Col } from 'antd';
-
-class CreateCustomers extends Component{
-    render(){
-        const { getFieldDecorator } = this.props.form;
-        return(
-            <div className="formbox">
-                <h2> Step 4:  Create Customers </h2>
-                <div>
-                    <Row>
-                        <Col span={12} >
-                            <h3> Download Blank Sheet for Customer List </h3>    
-                            <Button type="primary" >
-                                Download Blank Sheet
-                            </Button>                        
-                        </Col>
-                        <Col span={12}> 
-                            <h3> Demo Sheet for understand how to write data in sheet  </h3>    
-                            <Button type="primary" >
-                                Download Demo Sheet
-                            </Button>
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <Col span={24} >
-                            <h3> Upload Customer Data Sheet</h3>    
-                            <Form.Item label="Dragger">
-                            <div className="dropbox">
-                                {getFieldDecorator('dragger', {
-                                valuePropName: 'fileList',
-                                getValueFromEvent: this.normFile,
-                                })(
-                                <Upload.Dragger name="files" action="/upload.do">
-                                    <p className="ant-upload-drag-icon">
-                                    <Icon type="inbox" />
-                                    </p>
-                                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                                    <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-                                </Upload.Dragger>,
-                                )}
-                            </div>
-                            </Form.Item>                            
-                        </Col>
-                    </Row>
-                </div>
-            </div>
-        )
-    }
-}
-export default CreateCustomers;
-*/
